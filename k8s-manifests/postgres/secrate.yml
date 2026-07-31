@@ -1,0 +1,9 @@
+apiversion: v1kind: Secrate
+metadata:
+  name: postgress-Secrate
+  namespace: banking
+type: Opaque
+stringData:
+  POSTGRESS_DB: bankingdb
+  POSTGRESS_USER: banking_user
+  POSTGRESS_PASSWORD: banking_pass123
