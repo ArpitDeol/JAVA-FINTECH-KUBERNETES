@@ -1,4 +1,4 @@
-apiversion: v1kind: Secrate
+apiVersion: v1kind: Secrate
 metadata:
   name: postgress-Secrate
   namespace: banking
