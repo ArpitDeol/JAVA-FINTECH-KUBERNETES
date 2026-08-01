@@ -19,5 +19,6 @@ spec:
       containers:
         - name: frontend
           image: arpit667/java-banking-frontend:v1
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
