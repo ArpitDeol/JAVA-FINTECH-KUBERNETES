@@ -1,50 +1,47 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: postgress
+  name: postgres
   namespace: banking
 
-space:
-  serviceName: postgress-serviceName
+spec:
+  serviceName: postgres-service
   replica: 1
   selector:
-    matchlabels:
-      app: postgress
-
+    matchLabels:
+      app: postgres
+  
   template:
     metadata:
       labels:
-        app: postgress
+        app: postgres
 
     spec:
       nodeSelector:
         kubernetes.io/hostname: worker-node-2
-
       containers:
-        name: postgress
-        image: postgress:16-alpine
-        ports:
-          -containerPort: 5432
-        envFrom:
-          -secretRef:
-            name: postgress-storage
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - secretRef:
+              name: postgres-secret
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgres/data
+          readinessProbe:
+            exec:
+              command: ["pg_isready","-U","banking_user","-d","bankingdb"]
+            initialDelaySeconds: 10
+            periodSeconds: 5
 
-        volumeMounts:
-          -name: postgress-storage
-           mountPath: /var/lib/postgress/stringData
-        redinessProbe:
-          exec:
-            command: ["pg_isready","-U","banking_user","-d","bankingdb"]
-          initialDelaySecounds: 10
-          periodSeconds: 5
-
-  volumeClainTemplates:
-    -metadata:
-      name: postgress-storage
-    spec:
-      accessModes: ["ReadWriteOnce"]
-      storageClassName: local-mountPath
-      resource:
-        requests:
-          storage: 5Gi                 
-        
+  volumeClaimTemplates:
+    - metadata:
+        name: postgres-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: local-path    
+        resources:
+          requests:
+            storage: 5Gi     
