@@ -3,10 +3,11 @@ kind: Service
 metadata:
   name: frontend-svc
   namespace: banking
-
 spec:
-  clusterIP: None
   selector:
-    app: postgres
+    app: frontend
+  type: NodePort
   ports:
-    - port: 5432
+    - port: 80
+      targetPort: 80
+      nodePort: 30081
