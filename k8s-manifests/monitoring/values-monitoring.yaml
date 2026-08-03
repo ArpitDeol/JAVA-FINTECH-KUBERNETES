@@ -63,5 +63,5 @@ additionalPrometheusRulesMap:
             for: 10s
             labels:
               severity: critical
-            annotation:
+            annotations:
               description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} container {{ $labels.container }} was OOMKilled"
