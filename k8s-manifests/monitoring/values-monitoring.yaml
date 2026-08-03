@@ -55,7 +55,7 @@ additionalPrometheusRulesMap:
             for: 30s
             labels:
               severity: warning
-            annotation:
+            annotations:
               description: "Pod {{ $labels.namespace }}/{{ $labels.pod }} is in CrashLoopBackOff"
 
           - alert: kubePodOOMKilled
